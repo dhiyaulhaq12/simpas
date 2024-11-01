@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="bg-green-600">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow w-full border">
+        <div class=" mx-auto  py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-lg px-40 font-bold text-black ">SIMPAS</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- User Info -->
+    <div class="flex items-center space-x-4 p-4 bg-gray-100 rounded-lg shadow mt-16 max-w-screen-md mx-auto">
+        <img src="/static/images/iconchat.png" alt="User Avatar" class="w-12 h-12 rounded-full border-2 border-purple-500">
+        <div>
+            <h2 class="text-gray-800 font-semibold text-lg">Madam</h2>
+            <p class="text-green-500 text-sm">Silahkan menggunakan chatbot kami</p>
+        </div>
+        <div class="ml-auto text-gray-500 cursor-pointer"></div>
+    </div>
+
+    <!-- Chat Body -->
+    <main class="flex-grow flex flex-col p-4 max-w-screen-md mx-auto">
+        <div class="bg-white rounded-lg shadow-md flex flex-col p-4 h-full">
+            <div id="chatbox" class="overflow-y-auto flex-grow mb-4 p-3 border border-gray-300 rounded-lg h-64 max-h-96">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="flex">
+                <input type="text" id="userInput" class="border border-gray-300 rounded-l-lg p-2 flex-grow text-black" placeholder="Tulis pesan...">
+                <button id="sendButton" class="bg-green-600 text-white rounded-r-lg px-4 hover:bg-green-800 transition duration-200">Kirim</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript for AJAX functionality -->
+    <script>
+        const sendButton = document.getElementById('sendButton');
+        const userInput = document.getElementById('userInput');
+        const chatbox = document.getElementById('chatbox');
+
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                displayMessage(message, 'user');
+
+                fetch('/get_response', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayMessage(data.response, 'bot');
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                })
+                .catch(error => {
+                    displayMessage("Terjadi kesalahan. Coba lagi nanti.", 'bot');
+                });
+
+                userInput.value = '';
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        }
+
+        function displayMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            // Set classes for message alignment
+            if (sender === 'user') {
+                messageElement.className = 'text-right p-2 my-1 text-black rounded-lg'; // User messages on right
+            } else {
+                messageElement.className = 'text-left p-2 my-1 bg-gray-100 text-black rounded-lg'; // Bot messages on left
+                messageElement.textContent = ' ' + message; // Prefix bot messages
+            }
+            messageElement.textContent = sender === 'user' ? message : messageElement.textContent;
+            chatbox.appendChild(messageElement);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article[0] }}</title> <!-- Judul artikel -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-green-600">
+    <div class="container mx-auto py-6 px-4">
+        <!-- Tombol kembali ke daftar artikel -->
+        <a href="{{ url_for('artikel') }}" class="text-white hover:text-gray-200 mb-4 inline-block">
+            &larr; Kembali ke Daftar Artikel
+        </a>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Gambar Artikel -->
+            <img src="{{ url_for('static', filename='uploads/' + article[2]) }}" alt="Article Image" class="w-full h-80 object-cover">
+            
+            <div class="p-6">
+                <!-- Judul Artikel -->
+                <h1 class="text-3xl font-semibold text-gray-800 mb-4">{{ article[0] }}</h1> <!-- Title -->
+
+                <!-- Konten Artikel -->
+                <div class="text-gray-700 mb-6">
+                    <p>{{ article[1] }}</p> <!-- Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

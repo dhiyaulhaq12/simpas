@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <title>Simpas Landing Page</title>
+    <link rel="icon" href="/static/images/logo awal.png" type="image/x-icon">
     <link href="/static/css/main.css" rel="stylesheet">
     <style>
         @keyframes wave {
@@ -24,31 +25,24 @@
     </style>
 </head>
 <body class="bg-white text-white">
-
-    <!-- Navbar -->
-    <nav class="bg-white shadow fixed w-full z-10">
-        <div class="max-w-screen-xl mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="text-lg font-bold text-black">SIMPAS</div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Header Section -->
-    <div class="flex flex-col md:flex-row items-center justify-center h-screen p-8 bg-white">
-        <div class="md:w-1/2 space-y-5">
-            <h1 class="text-4xl font-bold md:text-5xl text-black">Sistem Informasi Sampah</h1>
-            <p class="text-lg text-gray-500">Aplikasi sistem informasi sampah modern dilengkapi dengan fitur deteksi yang memungkinkan pengguna untuk mengidentifikasi jenis-jenis sampah, seperti sampah organik, dan anorganik.</p>
-            <p class="text-lg text-gray-500">Unduh aplikasi ini untuk melakukan penjualan sampah.</p>
-            <div class="flex flex-col md:flex-row md:space-x-4">
-                <a href="{{ url_for('chatbot') }}" class="mb-4 md:mb-0 px-4 py-2 font-semibold text-gray-800 bg-gray-200 rounded hover:bg-gray-400 transition duration-300 transform hover:scale-105 text-center">Chat Bot</a>
-                <button class="px-4 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-800 transition duration-300 transform hover:scale-105">Unduh Aplikasi</button>
-            </div>            
-        </div>
-        <div class="mt-8 md:mt-0 md:w-1/2 flex justify-center">
-            <img src="/static/images/logoLogin.png" alt="Logo" class="w-2/3 ">
-        </div> 
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row items-center justify-center h-screen p-8 bg-white">
+    <div class="md:w-1/2 space-y-5">
+        <!-- Menyembunyikan h1 di perangkat mobile -->
+        <h1 class="text-4xl font-bold md:text-5xl text-black md:block hidden">Sistem Informasi Sampah</h1>
+        <p class="text-lg text-gray-500">Aplikasi sistem informasi sampah modern dilengkapi dengan fitur deteksi yang memungkinkan pengguna untuk mengidentifikasi jenis-jenis sampah, seperti sampah organik, dan anorganik.</p>
+        <p class="text-lg text-gray-500">Unduh aplikasi ini untuk melakukan penjualan sampah.</p>
+        <div class="flex flex-col md:flex-row md:space-x-4">
+            <a href="{{ url_for('chatbot') }}" class="mb-4 md:mb-0 px-4 py-2 font-semibold text-gray-800 bg-gray-200 rounded hover:bg-gray-400 transition duration-300 transform hover:scale-105 text-center">Chat Bot</a>
+            <button class="px-4 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-800 transition duration-300 transform hover:scale-105">Unduh Aplikasi</button>
+        </div>            
     </div>
+    <div class="mt-8 md:mt-0 md:w-1/2 flex justify-center">
+        <img src="/static/images/logoLogin.png" alt="Logo" class="w-2/3 ">
+    </div> 
+</div>
+
+
 <!-- About -->
 <div class="relative overflow-hidden bg-green-600 min-h-screen overflow-y-auto">
     <svg class="absolute top-0 left-0 w-full" viewBox="0 0 1440 320">
@@ -63,7 +57,7 @@
         <p class="text-lg text-white mb-8 text-center px-2 md:px-0">Temukan berbagai fitur inovatif yang dirancang untuk membantu Anda mengelola dan mendaur ulang sampah dengan lebih efektif.</p>
         
         <!-- Grid dengan fitur-fitur -->
-        <div class="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
+        <div class="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             <!-- Kartu Fitur 1 -->
             <div class="bg-gray-100 rounded-lg shadow-lg p-4 sm:p-6 text-center transform scale-100 hover:scale-105 transition duration-300 max-w-xs sm:max-w-sm mx-auto">
                 <img src="/static/images/iconklasifikasi.png" alt="Klasifikasi" class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4">
@@ -90,14 +84,16 @@
         </div>
     </div>
 </div>
-  
 
-    <div class="w-full max-w-lg mx-auto p-4 mt-14">
-      <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Tentang Aplikasi Sistem Informasi Sampah</h2>
-         <p class="text-gray-700 mb-4">
+
+    <div class="w-full max-w-lg mx-auto p-4 mt-14 ">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">
+            Tentang Aplikasi Sistem Informasi Sampah
+          </h2>
+         <p class="text-gray-700 mb-6">
           Aplikasi Sistem Informasi Sampah adalah solusi inovatif yang dirancang untuk membantu pengelolaan sampah secara efisien. Dengan fitur canggih, aplikasi ini memungkinkan pengguna untuk mengelola data sampah, melacak pengumpulan, dan menerima notifikasi tentang jadwal pengambilan sampah.
         </p>
-      <h3 class="text-xl font-semibold mb-4">Fitur Utama</h3>
+      <h3 class="text-2xl font-semibold text-center mb-4 text-black">Fitur Utama</h3>
   
       <!-- Checkbox Collapse Menu Item 1 -->
       <div class="border border-gray-300 rounded-md mb-2">
@@ -163,40 +159,35 @@
   <!-- Full-width Bottom Border -->
   <div class="border-b border-gray-400 w-full mt-4"></div>
   
-  <div class="relative">
-    <!-- Artikel Section -->
-    <div class="flex flex-col items-center mt-8">
-        <!-- Title -->
-        <h3 class="text-2xl font-bold text-center text-gray-800 mb-8">Temukan informasi menarik di artikel terbaru kami! Klik di sini untuk mengeksplorasi lebih lanjut.</h3>
+  <div class="text-center text-black max-w-4xl mx-auto space-y-12">
+    <!-- Title -->
+    <h1 class="text-3xl mt-20 font-semibold">
+        Anda dapat mengunjungi Artikel berikut ini
+    </h1>
+
+    <!-- Main Content -->
+    <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-x-16 md:space-y-0">
+      <!-- Form Preview (Image) -->
+      <div class="relative mb-8 md:mb-0">
+        <!-- Image replacing form box -->
+        <img src="/static/images/poster1.png" alt="Form Preview" class="w-60 rounded-lg shadow-lg">
         
-        <div class="flex flex-wrap justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <!-- Card 1 -->
-            <div class="relative w-80 h-64 bg-gray-300 overflow-hidden rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 mb-4">
-                <img src="/static/images/artikel1.png" alt="Sampah Plastik Cemari Sungai di Indonesia" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-4 text-white">
-                    <h3 class="text-xl font-bold mb-2">SAMPAH PLASTIK CEMARI SUNGAI DI INDONESIA</h3>
-                    <a href="https://dlh.bulelengkab.go.id/informasi/detail/artikel/66_sampah-plastik-cemari-sungai-di-indonesia" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition-colors">Baca Selengkapnya</a>
-                </div>
-            </div>
-            
-            <!-- Card 2 -->
-            <div class="relative w-80 h-64 bg-gray-300 overflow-hidden rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 mb-4">
-                <img src="/static/images/artikel2.jpg" alt="Dampak Buang Sampah Sembarangan" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-4 text-white">
-                    <h3 class="text-xl font-bold mb-2">Dampak Buang Sampah Sembarangan Cemari Lingkungan</h3>
-                    <a href="https://mmc.kalteng.go.id/berita/read/1861/dampak-buang-sampah-sembarangan-cemari-lingkungan" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition-colors">Baca Selengkapnya</a>
-                </div>
-            </div>
-            
-            <!-- Card 3 -->
-            <div class="relative w-80 h-64 bg-gray-300 overflow-hidden rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 mb-4">
-                <img src="/static/images/artikel3.png" alt="Tempat Pengelolaan Sampah Di Kota Tegal" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-4 text-white">
-                    <h3 class="text-xl font-bold mb-2">TEMPAT PENGELOLAAN SAMPAH DI TEGAL</h3>
-                    <a href="https://ppid.tegalkota.go.id/tempat-pengolahan-sampah-di-kota-tegal-tahun-2022/" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition-colors">Baca Selengkapnya</a>
-                </div>
-            </div>
-        </div>
+        <!-- Floating Tabs Box (Image) -->
+        <img src="/static/images/poster2.png" alt="Floating Tabs Box" class="absolute top-10 -left-36 w-80 shadow-lg rounded-lg hidden md:block">
+      </div>
+
+      <!-- Description -->
+      <div class="text-left max-w-md space-y-4 px-4">
+        <h2 class="text-3xl font-semibold">Artikel Menarik</h2>
+        <p class="text-gray-700 text-lg">
+            Apakah Anda tahu ke mana perginya sampah setelah kita membuangnya? Atau bagaimana pengelolaan sampah yang tepat bisa berdampak besar pada lingkungan kita? Dalam artikel ini, kami membahas lebih dalam mengenai sampah dan bagaimana kita semua bisa berkontribusi untuk menciptakan dunia yang lebih bersih dan sehat.
+        </p>
+        <a href="{{ url_for('artikel') }}" class="text-blue-600 hover:underline text-lg">Lihat list artikel-></a>
+      </div>
+    </div>
+</div>
+
+
      <!-- Curved SVG -->
       <svg class="w-full text-green-600" viewBox="0 0 1440 320">
          <path fill="currentColor" d="M0,180L48,185C96,190,192,200,288,190C384,180,480,150,576,130C672,110,768,100,864,110C960,120,1056,150,1152,160C1248,170,1344,160,1392,150L1440,140L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
@@ -218,9 +209,7 @@
               <a href="https://whatsapp.com" target="_blank" class="text-white hover:text-gray-300">
                   <img src="/static/images/logoWA.png" alt="WhatsApp" class="w-8 h-8">
               </a>
-              <a href="https://twitter.com" target="_blank" class="text-white hover:text-gray-300">
-                <img src="/static/images/logoX.png" alt="Twitter" class="w-8 h-8">
-               </a>
+             
             
           </div>
           <h3 class="text-2xl font-bold text-center mb-4">Terima kasih telah mengunjungi!</h3>
@@ -230,5 +219,3 @@
   
 </body>
 </html>
-
-

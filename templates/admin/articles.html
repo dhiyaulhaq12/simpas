@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Date Articles </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: #343a40;
+            color: white;
+            padding-top: 50px; /* Distance from the top */
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .sidebar h3 {
+            text-align: center; /* Menyelaraskan teks di tengah */
+            color: white;
+            font-size: 24px; /* Mengatur ukuran font */
+            margin-bottom: 30px; /* Memberikan jarak di bawah */
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .sidebar a.active {
+            background-color: #495057; /* Warna background saat aktif */
+            font-weight: bold; /* Menebalkan teks */
+        }
+
+        /* Main content area (to prevent sidebar overlap) */
+        .main-content {
+            margin-left: 270px;  /* Give space for the sidebar */
+            padding: 20px;
+        }
+
+        /* Membatasi tinggi tabel dan menambahkan scroll vertikal */
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;  /* Menambahkan scroll vertikal */
+        }
+
+        /* Membuat tabel scrollable horizontal */
+        .table-wrapper {
+            overflow-x: auto;  /* Menambahkan scroll horizontal jika lebar tabel melebihi layar */
+        }
+
+        table {
+            table-layout: fixed;
+        }
+
+        td, th {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;  /* Memastikan teks tidak meluber ke luar */
+        }
+
+        .table img {
+            max-width: 100px; /* Membatasi ukuran gambar */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h3>Hi Admin Simpas</h3>
+        <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' else '' }}">Dashboard</a>
+        <a href="{{ url_for('articles') }}" class="{{ 'active' if request.endpoint == 'articles' else '' }}">Articles</a>
+        <a href="#">Settings</a>
+        <a href="{{ url_for('logout') }}">Logout</a>  <!-- Logout link -->
+    </div>    
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 class="mb-4">Articles</h2>
+        <a href="{{ url_for('add_article') }}" class="btn btn-primary mb-4">Add New Article</a>
+
+        <!-- Wrapper for table with horizontal scroll -->
+        <div class="table-wrapper">
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Image</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                            <tr>
+                                <td>{{ article[0] }}</td>
+                                <td>{{ article[1] }}</td>
+                                <td>{{ article[2] }}</td>
+                                <td><img src="{{ url_for('static', filename='uploads/' + article[3]) }}" alt="Article Image"></td>
+                                <td>{{ article[4] }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit_article', id=article[0]) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{{ url_for('delete_article', id=article[0]) }}" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

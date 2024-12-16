@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ article[0] }}</title> <!-- Judul artikel -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ article[0] }}</title>
+  <link rel="icon" href="/static/images/logo awal.png" type="image/x-icon">
+  <link href="/static/css/main.css" rel="stylesheet">
 </head>
-<body class="bg-green-600">
-    <div class="container mx-auto py-6 px-4">
-        <!-- Tombol kembali ke daftar artikel -->
-        <a href="{{ url_for('artikel') }}" class="text-white hover:text-gray-200 mb-4 inline-block">
-            &larr; Kembali ke Daftar Artikel
-        </a>
+<body class="bg-gray-100 p-6">
 
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <!-- Gambar Artikel -->
-            <img src="{{ url_for('static', filename='uploads/' + article[2]) }}" alt="Article Image" class="w-full h-80 object-cover">
-            
-            <div class="p-6">
-                <!-- Judul Artikel -->
-                <h1 class="text-3xl font-semibold text-gray-800 mb-4">{{ article[0] }}</h1> <!-- Title -->
+  <!-- Navbar -->
+  <div class="fixed top-0 left-0 w-full bg-green-600 text-white p-4 flex items-center justify-between shadow z-10">
+    <button onclick="history.back()" class="flex items-center text-white">
+      <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 18a1 1 0 01-.707-.293l-7-7a1 1 0 010-1.414l7-7a1 1 0 111.414 1.414L4.414 10l6.293 6.293A1 1 0 0110 18z" clip-rule="evenodd" />
+      </svg>
+      Back
+    </button>
+    <div class="w-5 h-5"></div>
+  </div>
 
-                <!-- Konten Artikel -->
-                <div class="text-gray-700 mb-6">
-                    <p>{{ article[1] }}</p> <!-- Content -->
-                </div>
-            </div>
-        </div>
-    </div>
+  <!-- Konten artikel -->
+  <div class="pt-16 max-w-4xl mx-auto">
+    <h1 class="text-4xl font-semibold text-center text-black mb-10">
+      {{ article[0] }}
+    </h1>
+
+    {% if article[2] %}
+      <div class="mb-6">
+        <!-- Gambar dengan ukuran memanjang -->
+        <img src="{{ url_for('static', filename='uploads/' + article[2]) }}" 
+             alt="Gambar Artikel" 
+             class="w-full h-[900px] object-cover rounded-lg shadow-md">
+      </div>
+    {% endif %}
+
+    <!-- Isi Artikel -->
+    <p class="text-sm sm:text-base text-black mb-6">{{ article[1] }}</p>
+  </div>
 </body>
 </html>

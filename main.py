@@ -6,14 +6,14 @@ from werkzeug.utils import secure_filename
 
 # Membuat aplikasi Flask
 app = Flask(__name__)
-app.secret_key = 'rahasiadong'  # Kunci untuk session dan flash messages
+app.secret_key = 'rahasiadong' 
 
 # Konfigurasi database
 db_config = {
     'host': 'localhost',
-    'user': 'root',         # Ganti dengan username MySQL Anda
-    'password': '',         # Ganti dengan password MySQL Anda jika ada
-    'database': 'simpas',   # Nama database Anda
+    'user': 'root',         
+    'password': '',         
+    'database': 'simpas',   
 }
 
 # Konfigurasi folder untuk upload gambar
@@ -169,7 +169,7 @@ def login_admin():
             if bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8')):
                 session['user_id'] = user[0]  # Simpan ID user di session
                 flash("Login successful!", "success")
-                return redirect(url_for('admin_dashboard'))  # Redirect ke dashboard admin
+                return redirect(url_for('articles'))  # Redirect ke dashboard admin
             else:
                 flash("Invalid password", "danger")
         else:
@@ -187,6 +187,96 @@ def admin_dashboard():
         return redirect(url_for('login_admin'))  # Jika belum login, arahkan ke halaman login
     
     return render_template('admin/admin_dashboard.html')  # Dashboard admin
+
+@app.route('/add_collector', methods=['GET', 'POST'])
+def add_collector():
+    if 'user_id' not in session:
+        return redirect(url_for('login_admin'))  # Pastikan hanya admin yang dapat mengakses
+
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        address = request.form['address']
+        password = request.form['password']
+        
+        # Hash password
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+        # Simpan ke database
+        connection = pymysql.connect(**db_config)
+        cur = connection.cursor()
+        cur.execute("INSERT INTO collectors (name, email, address, password) VALUES (%s, %s, %s, %s)", 
+                    (name, email, address, hashed_password.decode('utf-8')))
+        connection.commit()
+        cur.close()
+        connection.close()
+
+        # Flash success message
+        flash("Pengepul telah ditambahkan!", "success")
+        return redirect(url_for('add_collector'))  # Redirect ke halaman add_collector
+
+    return render_template('admin/add_collector.html')
+
+@app.route('/collectors')
+def collectors():
+    if 'user_id' not in session:
+        return redirect(url_for('login_admin'))  # Pastikan hanya admin yang bisa mengakses
+
+    # Ambil data pengepul dari database
+    connection = pymysql.connect(**db_config)
+    cur = connection.cursor()
+    cur.execute("SELECT id, name, email, address FROM collectors")
+    collectors = cur.fetchall()
+    cur.close()
+    connection.close()
+
+    return render_template('admin/collectors.html', collectors=collectors)
+
+@app.route('/edit_collector/<int:id>', methods=['GET', 'POST'])
+def edit_collector(id):
+    if 'user_id' not in session:
+        return redirect(url_for('login_admin'))
+
+    connection = pymysql.connect(**db_config)
+    cur = connection.cursor()
+
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        address = request.form['address']
+        cur.execute("UPDATE collectors SET name = %s, email = %s, address = %s WHERE id = %s",
+                    (name, email, address, id))
+        connection.commit()
+        cur.close()
+        connection.close()
+        flash("Data pengepul berhasil diperbarui!", "success")
+        return redirect(url_for('collectors'))
+
+    cur.execute("SELECT id, name, email, address FROM collectors WHERE id = %s", (id,))
+    collector = cur.fetchone()
+    cur.close()
+    connection.close()
+
+    return render_template('admin/edit_collector.html', collector=collector)
+
+@app.route('/delete_collector/<int:id>')
+def delete_collector(id):
+    if 'user_id' not in session:
+        return redirect(url_for('login_admin'))
+
+    connection = pymysql.connect(**db_config)
+    cur = connection.cursor()
+    cur.execute("DELETE FROM collectors WHERE id = %s", (id,))
+    connection.commit()
+    cur.close()
+    connection.close()
+    flash("Pengepul telah dihapus!", "success")
+    return redirect(url_for('collectors'))
+
+
+
+
+
 
 @app.route('/logout')
 def logout():

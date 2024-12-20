@@ -6,38 +6,88 @@
     <title>Edit Collector</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<style>
+    /* Styling Sidebar */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        background-color: #343a40;
+        color: white;
+        padding-top: 50px;
+        padding-left: 20px;
+        padding-right: 20px;
+        z-index: 10;
+    }
+
+    .sidebar h3 {
+        text-align: center;
+        color: white;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 15px;
+        padding: 10px 0;
+    }
+
+    .sidebar a:hover {
+        background-color: #495057;
+    }
+
+    .sidebar a.active {
+        background-color: #495057;
+        font-weight: bold;
+    }
+</style>
+
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header class="bg-blue-600 text-white py-4">
-        <h1 class="text-center text-2xl font-semibold">Edit Pengepul</h1>
-    </header>
-    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Hi Admin Simpas</h3>
+        <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' else '' }}">Dashboard</a>
+        <a href="{{ url_for('articles') }}" class="{{ 'active' if request.endpoint == 'articles' else '' }}">Articles</a>
+        <a href="{ url_for('settings') }">Settings</a>
+        <a href="{{ url_for('collectors') }}" class="{{ 'active' if request.endpoint == 'collectors' else '' }}">Collectors</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
 
-    <!-- Container -->
-    <div class="container mx-auto px-4 py-6">
-        <div class="bg-white rounded-lg shadow p-4">
-            <form action="{{ url_for('edit_collector', id=collector[0]) }}" method="POST" class="space-y-4">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" name="name" value="{{ collector[1] }}" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" value="{{ collector[2] }}" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                    <textarea id="address" name="address" rows="3" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500">{{ collector[3] }}</textarea>
-                </div>
-                <button type="submit"
-                    class="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500">
-                    Save Changes
-                </button>
-            </form>
+    <!-- Main Content -->
+    <div class="main-content ml-64 pt-8">
+        <div class="container mx-auto px-4 py-6">
+            <div class="bg-white rounded-lg shadow p-6">
+                <!-- Title -->
+                <h1 class="text-2xl font-semibold text-gray-700 mb-6">Edit Collector</h1>
+                <!-- Form -->
+                <form action="{{ url_for('edit_collector', id=collector[0]) }}" method="POST" class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" value="{{ collector[1] }}" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" value="{{ collector[2] }}" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <textarea id="address" name="address" rows="3" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500">{{ collector[3] }}</textarea>
+                    </div>
+                    <button type="submit"
+                        class="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </body>

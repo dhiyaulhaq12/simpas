@@ -83,10 +83,8 @@
         <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' else '' }}">Dashboard</a>
         <a href="{{ url_for('articles') }}" class="{{ 'active' if request.endpoint == 'articles' else '' }}">Articles</a>
         <a href="{ url_for('settings') }">Settings</a>
-        <a href="{{ url_for('add_collector') }}" class="{{ 'active' if request.endpoint == 'add_collcector' else '' }}">Add Collector</a>
-        <a href="{{ url_for('collectors') }}" class="{{ 'active' if request.endpoint == 'collectors' else '' }}">Pengepul</a>
-
-        <a href="{{ url_for('logout') }}">Logout</a>  <!-- Logout link -->
+        <a href="{{ url_for('collectors') }}" class="{{ 'active' if request.endpoint == 'collectors' else '' }}">Collectors</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
     </div>
 
     

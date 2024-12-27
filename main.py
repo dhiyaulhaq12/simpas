@@ -96,6 +96,8 @@ def add_article():
             connection.close()
             flash("Article added successfully!")
             return redirect(url_for('articles'))
+        else:
+            flash("Invalid image file type!")
     return render_template('admin/add_article.html')
 
 # Mengedit artikel
@@ -147,7 +149,7 @@ def delete_article(id):
     flash("Article deleted successfully!")
     return redirect(url_for('articles'))
 
-#loginadmin
+# loginadmin
 @app.route('/admin/login', methods=['GET', 'POST'])
 def login_admin():
     if request.method == 'POST':
@@ -273,9 +275,96 @@ def delete_collector(id):
     flash("Pengepul telah dihapus!", "success")
     return redirect(url_for('collectors'))
 
+@app.route('/admin/topup_requests')
+def topup_requests():
+    # Pastikan admin login
+    if 'user_id' not in session:
+        return redirect(url_for('login_admin'))
+    
+    # Query untuk mengambil data top-up request beserta nama dan email pengepul
+    connection = pymysql.connect(**db_config)
+    cur = connection.cursor()
+    cur.execute(""" 
+    SELECT 
+        tr.id AS topup_id,
+        tr.collector_id,  -- Tambahkan collector_id di sini
+        c.name AS collector_name,
+        c.email AS collector_email,
+        tr.transfer_proof_filename,
+        tr.points,
+        tr.status,
+        tr.created_at
+    FROM 
+        topup_requests tr
+    LEFT JOIN 
+        collectors c
+    ON 
+        tr.collector_id = c.id
+    """)
 
+    topup_requests = cur.fetchall()
+    cur.close()
+    connection.close()
+    
+    # Render halaman admin dengan data top-up request
+    return render_template('admin/topup_requests.html', topup_requests=topup_requests)
 
+@app.route('/admin/update_topup_request/<int:topup_id>', methods=['POST'])
+def update_topup_request(topup_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login_admin'))
+    
+    # Ambil data dari form
+    points = request.form.get('points')
+    status = request.form.get('status')
 
+    # Update database
+    connection = pymysql.connect(**db_config)
+    cur = connection.cursor()
+    cur.execute(""" 
+        UPDATE topup_requests 
+        SET points = %s, status = %s 
+        WHERE id = %s
+    """, (points, status, topup_id))
+    connection.commit()
+    cur.close()
+    connection.close()
+
+    flash('Top-up request berhasil diperbarui!', 'success')
+    return redirect(url_for('topup_requests'))
+
+@app.route('/admin/add_points/<int:topup_id>', methods=['GET', 'POST'])
+def add_points(topup_id):
+    # Pastikan admin login
+    if 'user_id' not in session:
+        return redirect(url_for('login_admin'))
+    
+    connection = pymysql.connect(**db_config)
+    cur = connection.cursor()
+
+    if request.method == 'POST':
+        points = request.form.get('points')
+        status = request.form.get('status')
+        cur.execute(""" 
+            UPDATE topup_requests 
+            SET points = %s, status = %s 
+            WHERE id = %s 
+        """, (points, status, topup_id))
+        connection.commit()
+        flash('Poin berhasil ditambahkan!', 'success')
+        return redirect(url_for('topup_requests'))  # Fixed the URL here
+    else:
+        cur.execute(""" 
+            SELECT id, collector_id, points, status 
+            FROM topup_requests 
+            WHERE id = %s 
+        """, (topup_id,))
+        topup_request = cur.fetchone()
+
+    cur.close()
+    connection.close()
+
+    return render_template('admin/add_points.html', topup_request=topup_request)
 
 
 @app.route('/logout')

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Poin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Styling Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: #343a40;
+            color: white;
+            padding-top: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+            z-index: 10;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .sidebar a.active {
+            background-color: #495057;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Hi Admin Simpas</h3>
+        <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' else '' }}">Dashboard</a>
+        <a href="{{ url_for('collectors') }}" class="{{ 'active' if request.endpoint == 'collectors' else '' }}">Collectors</a>
+        <a href="{{ url_for('topup_requests') }}" class="{{ 'active' if request.endpoint == 'topup_requests' else '' }}">Top-Up Requests</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content ml-64 pt-8">
+        <div class="container mx-auto px-4 py-6">
+            <div class="bg-white rounded-lg shadow p-6 max-w-lg mx-auto">
+                <h1 class="text-2xl font-semibold text-gray-700 mb-6">Tambah Poin</h1>
+                <form method="POST">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-2">Collector ID</label>
+                        <input type="text" value="{{ topup_request[1] }}" class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-2">Poin</label>
+                        <input type="number" name="points" value="{{ topup_request[5] }}" class="w-full border rounded px-3 py-2">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-2">Status</label>
+                        <select name="status" class="w-full border rounded px-3 py-2">
+                            <option value="pending" {% if topup_request[6] == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="approved" {% if topup_request[6] == 'approved' %}selected{% endif %}>Approved</option>
+                            <option value="rejected" {% if topup_request[6] == 'rejected' %}selected{% endif %}>Rejected</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-6">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
+                        <a href="{{ url_for('topup_requests') }}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded ml-2">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

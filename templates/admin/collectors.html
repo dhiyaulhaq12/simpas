@@ -53,7 +53,6 @@
         <h3>Hi Admin Simpas</h3>
         <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' else '' }}">Dashboard</a>
         <a href="{{ url_for('articles') }}" class="{{ 'active' if request.endpoint == 'articles' else '' }}">Articles</a>
-        <a href="{ url_for('settings') }">Settings</a>
         <a href="{{ url_for('collectors') }}" class="{{ 'active' if request.endpoint == 'collectors' else '' }}">Collectors</a>
         <a href="{{ url_for('logout') }}">Logout</a>
         <a href="{{ url_for('topup_requests') }}" class="{{ 'active' if request.endpoint == 'topup_requests' else '' }}">Top-Up Requests</a>
@@ -88,13 +87,13 @@
                         <tbody>
                             {% for collector in collectors %}
                             <tr class="border-t border-gray-200">
-                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector[0] }}</td>
-                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector[1] }}</td>
-                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector[2] }}</td>
-                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector[3] }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector['_id'] }}</td>  <!-- ID Collector -->
+                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector['name'] }}</td> <!-- Nama -->
+                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector['email'] }}</td> <!-- Email -->
+                                <td class="py-2 px-4 text-sm text-gray-700">{{ collector['address'] }}</td> <!-- Alamat -->
                                 <td class="py-2 px-4 text-center">
-                                    <a href="{{ url_for('edit_collector', id=collector[0]) }}" class="text-blue-600 hover:underline">Edit</a> |
-                                    <a href="{{ url_for('delete_collector', id=collector[0]) }}" class="text-red-600 hover:underline">Delete</a>
+                                    <a href="{{ url_for('edit_collector', id=collector['_id']) }}" class="text-blue-600 hover:underline">Edit</a> |
+                                    <a href="{{ url_for('delete_collector', id=collector['_id']) }}" class="text-red-600 hover:underline">Delete</a>
                                 </td>
                             </tr>
                             {% else %}

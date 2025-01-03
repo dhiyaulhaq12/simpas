@@ -52,9 +52,10 @@
     <div class="sidebar">
         <h3>Hi Admin Simpas</h3>
         <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' else '' }}">Dashboard</a>
+        <a href="{{ url_for('articles') }}" class="{{ 'active' if request.endpoint == 'articles' else '' }}">Articles</a>
         <a href="{{ url_for('collectors') }}" class="{{ 'active' if request.endpoint == 'collectors' else '' }}">Collectors</a>
-        <a href="{{ url_for('topup_requests') }}" class="{{ 'active' if request.endpoint == 'topup_requests' else '' }}">Top-Up Requests</a>
         <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('topup_requests') }}" class="{{ 'active' if request.endpoint == 'topup_requests' else '' }}">Top-Up Requests</a>
     </div>
 
     <!-- Main Content -->
@@ -65,20 +66,20 @@
                 <form method="POST">
                     <div class="mb-4">
                         <label class="block text-gray-700 font-medium mb-2">Collector ID</label>
-                        <input type="text" value="{{ topup_request[1] }}" class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
+                        <input type="text" value="{{ topup_request['collector_id'] }}" class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
                     </div>
 
                     <div class="mb-4">
                         <label class="block text-gray-700 font-medium mb-2">Poin</label>
-                        <input type="number" name="points" value="{{ topup_request[5] }}" class="w-full border rounded px-3 py-2">
+                        <input type="number" name="points" value="{{ topup_request['points'] }}" class="w-full border rounded px-3 py-2">
                     </div>
 
                     <div class="mb-4">
                         <label class="block text-gray-700 font-medium mb-2">Status</label>
                         <select name="status" class="w-full border rounded px-3 py-2">
-                            <option value="pending" {% if topup_request[6] == 'pending' %}selected{% endif %}>Pending</option>
-                            <option value="approved" {% if topup_request[6] == 'approved' %}selected{% endif %}>Approved</option>
-                            <option value="rejected" {% if topup_request[6] == 'rejected' %}selected{% endif %}>Rejected</option>
+                            <option value="pending" {% if topup_request['status'] == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="approved" {% if topup_request['status'] == 'approved' %}selected{% endif %}>Approved</option>
+                            <option value="rejected" {% if topup_request['status'] == 'rejected' %}selected{% endif %}>Rejected</option>
                         </select>
                     </div>
 
